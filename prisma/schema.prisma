@@ -1,0 +1,105 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  races         Race[]    // 创建的赛事
+  reviews       Review[]  // 发布的评论
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Race {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  date          DateTime
+  location      String
+  difficulty    Float    // 1-5 难度评分
+  categories    String[] // 赛事分类标签
+  maxParticipants Int
+  price         Float
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  organizerId   String
+  organizer     User     @relation(fields: [organizerId], references: [id])
+  reviews       Review[]
+
+  @@map("races")
+}
+
+model Review {
+  id              String   @id @default(cuid())
+  content         String
+  difficultyRating Float   // 难度评分 1-5
+  supplyRating    Float   // 补给评分 1-5
+  organizationRating Float // 组织评分 1-5
+  trafficRating   Float   // 交通评分 1-5
+  valueRating     Float   // 性价比评分 1-5
+  images          String[] // 图片URL数组
+  isAnonymous     Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  raceId          String
+  race            Race     @relation(fields: [raceId], references: [id])
+
+  @@map("reviews")
+}
+
+// NextAuth.js 相关模型
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+enum Role {
+  USER
+  ADMIN
+  ORGANIZER
+}
