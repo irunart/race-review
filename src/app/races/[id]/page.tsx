@@ -1,53 +1,86 @@
-export default function RaceDetail({ params }: { params: { id: string } }) {
+import { prisma } from "@/lib/db/prisma";
+import { notFound } from "next/navigation";
+import { RaceDifficultyRating } from "@/components/features/RaceDifficultyRating";
+import { Badge } from "@/components/ui/Badge";
+import ReviewList from "@/components/features/ReviewList";
+import WeatherHistory from "@/components/features/WeatherHistory";
+import RaceInfoSection from "@/components/features/RaceInfoSection";
+
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+export default async function RaceDetailPage({ params }: Props) {
+  const race = await prisma.race.findUnique({
+    where: { id: params.id },
+    include: {
+      weatherHistory: true,
+      reviews: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+      creator: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  if (!race) {
+    notFound();
+  }
+
   return (
-    <div className="space-y-6">
-      {/* 赛事基本信息 */}
-      <section className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
-        <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
-          <Image
-            fill
-            src="/race-banner.jpg"
-            alt="Race banner"
-            className="object-cover"
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* 主要信息区 */}
+        <div className="lg:col-span-2">
+          <h1 className="text-3xl font-bold mb-2">{race.name}</h1>
+          <div className="flex items-center gap-2 text-gray-600 mb-6">
+            <span>{race.location}</span>
+            <span>•</span>
+            <span>{new Date(race.date).toLocaleDateString()}</span>
+          </div>
+
+          <div className="prose max-w-none mb-8">
+            <p>{race.description}</p>
+          </div>
+
+          <RaceDifficultyRating
+            initialRatings={{
+              elevation: race.difficulty,
+              road: 0,
+              technical: 0,
+            }}
+            readonly
           />
+
+          <WeatherHistory data={race.weatherHistory} />
         </div>
 
-        <div className="space-y-4">
-          <h1 className="text-2xl font-bold">2024北京马拉松</h1>
-
-          <div className="flex flex-wrap gap-4">
-            <Badge>难度: 4.5/5</Badge>
-            <Badge>补给: 4.8/5</Badge>
-            <Badge>组织: 4.7/5</Badge>
-            <Badge>交通: 4.6/5</Badge>
-            <Badge>性价比: 4.2/5</Badge>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <InfoCard
-              icon={<CalendarIcon />}
-              label="比赛时间"
-              value="2024-04-15"
-            />
-            <InfoCard
-              icon={<LocationIcon />}
-              label="比赛地点"
-              value="北京奥林匹克公园"
-            />
-            <InfoCard icon={<RunnerIcon />} label="参赛人数" value="30000人" />
-            <InfoCard icon={<PriceIcon />} label="报名费用" value="￥200起" />
-          </div>
+        {/* 侧边信息栏 */}
+        <div>
+          <RaceInfoSection race={race} />
         </div>
-      </section>
+      </div>
 
-      {/* 天气信息 */}
-      <WeatherHistory raceId={params.id} />
-
-      {/* 装备建议 */}
-      <EquipmentSuggestions raceId={params.id} />
-
-      {/* 评论列表 */}
-      <ReviewList raceId={params.id} />
+      {/* 评论区 */}
+      <div className="mt-12">
+        <ReviewList reviews={race.reviews} raceId={race.id} />
+      </div>
     </div>
   );
 }

@@ -98,7 +98,7 @@ race-review-platform/
 ├── integration/
 └── e2e/
 
-### project
+### project 说明
 
 通过next 框架搭建一个赛事评论网站, 该产品功能点差异化发展方向：
 
