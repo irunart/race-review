@@ -58,7 +58,7 @@ export default async function RaceDetailPage({ params }: Props) {
   if (!race.weatherHistory[0] || isWeatherDataStale(race.weatherHistory[0].updatedAt)) {
     await fetch(`/api/weather/update`, {
       method: 'POST',
-      body: JSON.stringify({ raceId: race.id }),
+      body: JSON.stringify({ raceId: race.raceId }),
     });
   }
 
