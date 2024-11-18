@@ -22,8 +22,12 @@ async function main() {
     data: {
       raceId: "2025145119", // 使用一个示例ID
       name: "2025普洱思茅马拉松",
-      location: "云南省/普洱市/思茅区",
+      location: "22.783333,100.966667", // 使用经纬度格式
       date: new Date("2025-01-12"),
+      distance: 42.195, // 全程马拉松距离
+      elevation: 350, // 示例海拔变化
+      terrain: "ROAD",
+      technicalLevel: 2,
       raceGrade: "A (A1)",
       raceItems: ["全程", "半程", "5公里"],
       raceScale: "20000人",
@@ -40,28 +44,30 @@ async function main() {
       raceId: race.raceId,
       date: new Date("2025-01-12"),
       temperature: 18.5,
-      humidity: 65.0,
+      humidity: 65,
       windSpeed: 3.2,
-      conditions: "晴朗",
+      conditions: "Clear",
+      rainfall: 0,
+      visibility: 10,
+      pressure: 1013.25,
     },
   });
 
   // 创建示例评论
   await prisma.review.create({
     data: {
+      id: "example-review-1",
       raceId: race.raceId,
       userId: admin.id,
-      rating: 4,
-      content: "赛道风景优美，组织有序，值得参加！",
-      isVerified: true,
+      rating: 4.5,
+      title: "很好的赛事体验",
+      content: "赛道规划合理，补给充足，志愿者服务热情。适合新手参加的马拉松赛事。",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
 
-  console.log({
-    admin,
-    race,
-    message: "Seed data created successfully",
-  });
+  console.log("Seed data created successfully");
 }
 
 main()

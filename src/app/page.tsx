@@ -21,7 +21,7 @@ export default async function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {races.map((race) => (
-          <RaceCard key={race.id} race={race} />
+          <RaceCard key={race.raceId} race={race} />
         ))}
       </div>
     </main>

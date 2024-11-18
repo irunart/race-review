@@ -55,8 +55,8 @@ export default async function SearchPage({ searchParams }: Props) {
         ) : (
           races.map((race) => (
             <Link
-              key={race.id}
-              href={`/races/${race.id}`}
+              key={race.raceId}
+              href={`/races/${race.raceId}`}
               className="block p-4 border rounded hover:shadow-md"
             >
               <h2 className="text-xl font-semibold mb-2">{race.name}</h2>

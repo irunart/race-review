@@ -1,3 +1,7 @@
+
+export { GoogleIcon } from './GoogleIcon';
+export { GithubIcon } from './GithubIcon';
+
 export function ElevationIcon() {
   return (
     <svg
@@ -57,3 +61,5 @@ export function TechnicalIcon() {
     </svg>
   );
 }
+
+// create goolge icon

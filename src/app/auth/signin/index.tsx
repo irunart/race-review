@@ -2,8 +2,12 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { GoogleIcon, GithubIcon } from "@/components/icons/index.tsx";
 
 export default function SignIn() {
   const router = useRouter();

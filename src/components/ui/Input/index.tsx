@@ -35,6 +35,7 @@ export interface InputProps
   error?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  description?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -49,23 +50,41 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       error,
       leftIcon,
       rightIcon,
+      description,
+      id,
       ...props
     },
     ref
   ) => {
+    // Generate a unique ID if none is provided
+    const uniqueId = id || `input-${Math.random().toString(36).slice(2, 11)}`;
+    const descriptionId = description ? `${uniqueId}-description` : undefined;
+    const errorId = error ? `${uniqueId}-error` : undefined;
+
     return (
       <div className={cn("grid gap-1.5", fullWidth && "w-full")}>
         {label && (
           <label
-            htmlFor={props.id}
+            htmlFor={uniqueId}
             className="text-sm font-medium leading-none text-gray-700"
           >
             {label}
           </label>
         )}
+        {description && (
+          <p
+            id={descriptionId}
+            className="text-sm text-gray-500"
+          >
+            {description}
+          </p>
+        )}
         <div className="relative">
           {leftIcon && (
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <div 
+              className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500"
+              aria-hidden="true"
+            >
               {leftIcon}
             </div>
           )}
@@ -82,15 +101,32 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               className
             )}
             ref={ref}
+            id={uniqueId}
+            aria-invalid={error ? "true" : undefined}
+            aria-describedby={cn(
+              descriptionId,
+              errorId
+            )}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+            <div 
+              className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500"
+              aria-hidden="true"
+            >
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <p className="text-xs text-red-500">{error}</p>}
+        {error && (
+          <p 
+            id={errorId}
+            className="text-xs text-red-500"
+            role="alert"
+          >
+            {error}
+          </p>
+        )}
       </div>
     );
   }
@@ -99,16 +135,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 export { Input, inputVariants };
-
-// src/components/ui/Input/index.ts
-// export * from './Input';
-
-// Usage Example:
-// import { Input } from '@/components/ui/Input';
-// <Input
-//   label="Email"
-//   type="email"
-//   placeholder="Enter your email"
-//   error="Please enter a valid email"
-//   leftIcon={<EmailIcon className="w-5 h-5" />}
-// />

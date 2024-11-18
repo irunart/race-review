@@ -8,6 +8,7 @@ interface Props {
     equipmentSuggestions: string[];
     accommodationInfo?: string | null;
     transportInfo?: string | null;
+    raceId: string; // Add this line
   };
 }
 
@@ -54,7 +55,7 @@ export default function RaceInfoSection({ race }: Props) {
       )}
 
       <Link
-        href={`/reviews/create?raceId=${race.id}`}
+        href={`/reviews/create?raceId=${race.raceId}`}
         className="block w-full text-center py-2 bg-primary text-white rounded-lg hover:bg-primary-dark mt-6"
       >
         写评价

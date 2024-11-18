@@ -5,8 +5,8 @@ const nextConfig = {
         // domains: ['your-image-cdn.com'],
     },
     experimental: {
-        serverActions: true,
+        // Add experimental features here
     },
 }
 
-module.exports = nextConfig
+export default nextConfig;
