@@ -76,18 +76,18 @@ export class RunChinaScraper {
       const totalPages = firstPage.data.pageCount;
       const races: RaceData[] = this.transformRaceData(firstPage.data.results);
 
-      // 获取剩余页面的数据
-      //   for (let page = 2; page <= totalPages; page++) {
-      //     // 添加进度日志
-      //     console.log(`Fetching page ${page} of ${totalPages}`);
+      //获取剩余页面的数据
+        for (let page = 2; page <= totalPages; page++) {
+          // 添加进度日志
+          console.log(`Fetching page ${page} of ${totalPages}`);
 
-      //     try {
-      //       const response = await this.fetchRaceList(page);
-      //       races.push(...this.transformRaceData(response.data.results));
-      //     } catch (error) {
-      //       console.error(`Error fetching page ${page} of ${totalPages}:`, error);
-      //     }
-      //   }
+          try {
+            const response = await this.fetchRaceList(page);
+            races.push(...this.transformRaceData(response.data.results));
+          } catch (error) {
+            console.error(`Error fetching page ${page} of ${totalPages}:`, error);
+          }
+        }
 
       return races;
     } catch (error) {
@@ -109,15 +109,15 @@ export class RunChinaScraper {
         lastUpdated: new Date(item.raceTime),
         date: new Date(item.raceTime),
         source: "中国马拉松",
-        sourceUrl: "https://www.runchina.org.cn/", //TODO
+        sourceUrl: `https://www.runchina.org.cn/#/race/v/detail/${item.raceId}`,
       };
     });
   }
 
   private async randomDelay() {
     // 生成1-3秒之间的随机延迟
-    // const delay = Math.floor(Math.random() * 2000) + 1000;
-    // await new Promise((resolve) => setTimeout(resolve, delay));
+    const delay = Math.floor(Math.random() * 2000) + 1000;
+    await new Promise((resolve) => setTimeout(resolve, delay));
     return;
   }
 }
