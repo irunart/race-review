@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { RaceDifficultyRating } from "@/components/features/RaceDifficultyRating";
-import { Badge } from "@/components/ui/badge";
 import ReviewList from "@/components/features/ReviewList";
 import WeatherHistory from "@/components/features/WeatherHistory";
 import RaceInfoSection from "@/components/features/RaceInfoSection";
@@ -23,7 +22,7 @@ function isWeatherDataStale(updatedAt: Date) {
 
 export default async function RaceDetailPage({ params }: Props) {
   const race = await prisma.race.findUnique({
-    where: { id: params.id },
+    where: { raceId: params.id },
     include: {
       weatherHistory: {
         orderBy: { date: 'desc' },
