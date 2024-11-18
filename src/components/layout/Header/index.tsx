@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Logo } from "@/components/shared/Logo";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
 import { UserMenu } from "./UserMenu";
 import { MobileMenu } from "./MobileMenu";

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SearchIcon, XIcon } from "lucide-react";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { useDebounce } from "ahooks";
 import type {SearchRaceResult} from "@/lib/services/race/raceService";
 import { RaceService } from "@/lib/services/race/raceService";

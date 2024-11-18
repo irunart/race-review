@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { RaceDifficultyRating } from "@/components/features/RaceDifficultyRating";
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import ReviewList from "@/components/features/ReviewList";
 import WeatherHistory from "@/components/features/WeatherHistory";
 import RaceInfoSection from "@/components/features/RaceInfoSection";

@@ -1,7 +1,7 @@
 import { WeatherHistory } from '@prisma/client';
 import { Cloud, Droplets, Sun, ThermometerSun, Wind } from 'lucide-react';
 import { WeatherService } from '@/lib/services/weather';
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 

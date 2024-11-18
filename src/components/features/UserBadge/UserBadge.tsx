@@ -1,5 +1,5 @@
-import { Badge } from '@/components/ui/Badge';
-import { Tooltip } from '@/components/ui/Tooltip';
+import { Badge } from '@/components/ui/badge';
+import { Tooltip } from '@/components/ui/tooltip';
 import { User } from '@prisma/client';
 import { Shield, Award, Trophy, Medal } from 'lucide-react';
 
