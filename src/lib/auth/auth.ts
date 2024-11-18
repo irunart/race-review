@@ -25,32 +25,27 @@ declare module "next-auth" {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as any, // Type assertion to fix compatibility issue
   providers: [
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        email: { label: "邮箱", type: "email" },
-        password: { label: "密码", type: "password" },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("请输入邮箱和密码");
+          throw new Error("Invalid credentials");
         }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-          select: {
-            id: true,
-            email: true,
-            password: true,
-            name: true,
-            role: true,
+          where: {
+            email: credentials.email,
           },
         });
 
-        if (!user || !user.password) {
-          throw new Error("用户不存在");
+        if (!user || !user?.password) {
+          throw new Error("Invalid credentials");
         }
 
         const isValid = await bcrypt.compare(
@@ -59,7 +54,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isValid) {
-          throw new Error("密码错误");
+          throw new Error("Invalid credentials");
         }
 
         return {
@@ -74,17 +69,11 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // 24 hours
-  },
-  pages: {
-    signIn: "/auth/login",
-    signUp: "/auth/register",
-    error: "/auth/error",
   },
   callbacks: {
     async session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
+      if (token && session.user) {
+        session.user.id = token.sub!;
         session.user.role = token.role as string;
       }
       return session;
@@ -98,10 +87,12 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     async signIn({ user }) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { lastLogin: new Date() },
-      });
+      if (user) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLogin: new Date() },
+        });
+      }
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
