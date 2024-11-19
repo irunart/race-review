@@ -21,7 +21,7 @@ export function Header() {
             <Logo showText className="hidden sm:flex" />
             <Logo showText={false} className="sm:hidden" />
 
-            <nav className="hidden md:flex items-center space-x-6">
+            {/* <nav className="hidden md:flex items-center space-x-6">
               <Link
                 href="/races"
                 className="text-sm font-medium text-gray-700 hover:text-primary-600"
@@ -40,7 +40,7 @@ export function Header() {
               >
                 社区
               </Link>
-            </nav>
+            </nav> */}
           </div>
 
           {/* Desktop Search & Actions */}
