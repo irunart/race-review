@@ -1,3 +1,4 @@
+import "@/styles/global.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import { Header } from "@/components/layout/Header";

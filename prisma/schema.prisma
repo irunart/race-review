@@ -15,56 +15,106 @@ model User {
   image         String?
   password      String?
   role          Role      @default(USER)
+  isVerifiedRunner Boolean @default(false)
+  achievements   Achievement[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  races         Race[]    // 创建的赛事
-  reviews       Review[]  // 发布的评论
   accounts      Account[]
   sessions      Session[]
+  reviews       Review[]
+  verificationRequests VerificationRequest[]
 
   @@map("users")
 }
 
 model Race {
-  id            String   @id @default(cuid())
-  title         String
-  description   String?
-  date          DateTime
-  location      String
-  difficulty    Float    // 1-5 难度评分
-  categories    String[] // 赛事分类标签
-  maxParticipants Int
-  price         Float
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  organizerId   String
-  organizer     User     @relation(fields: [organizerId], references: [id])
-  reviews       Review[]
+  raceId          String   @id
+  name            String
+  location        String
+  date            DateTime
+  distance        Float    @default(0) // 距离（公里）
+  elevation       Float    @default(0) // 海拔变化（米）
+  terrain         Terrain  @default(ROAD)
+  technicalLevel  Int      @default(1)
+  raceGrade       String
+  raceItems       String[]
+  raceScale       String
+  source          String
+  sourceUrl       String
+  lastUpdated     DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  
+  reviews         Review[]
+  weatherHistory  WeatherHistory[]
 
   @@map("races")
 }
 
-model Review {
-  id              String   @id @default(cuid())
-  content         String
-  difficultyRating Float   // 难度评分 1-5
-  supplyRating    Float   // 补给评分 1-5
-  organizationRating Float // 组织评分 1-5
-  trafficRating   Float   // 交通评分 1-5
-  valueRating     Float   // 性价比评分 1-5
-  images          String[] // 图片URL数组
-  isAnonymous     Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+model WeatherHistory {
+  id          String   @id @default(cuid())
+  raceId      String
+  date        DateTime
+  temperature Float
+  humidity    Int
+  windSpeed   Float
+  conditions  String
+  rainfall    Float?
+  visibility  Float?
+  pressure    Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
 
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  raceId          String
-  race            Race     @relation(fields: [raceId], references: [id])
+  race        Race     @relation(fields: [raceId], references: [raceId], onDelete: Cascade)
+
+  @@map("weather_history")
+  @@unique([raceId, date])
+}
+
+model Review {
+  id            String   @id @default(cuid())
+  raceId        String
+  userId        String
+  rating        Float
+  title         String
+  content       String
+  isVerified    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  race          Race     @relation(fields: [raceId], references: [raceId], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("reviews")
+}
+
+model Achievement {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  date      DateTime
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("achievements")
+}
+
+model VerificationRequest {
+  id          String   @id @default(cuid())
+  userId      String
+  realName    String
+  idNumber    String
+  raceResults Json
+  socialMedia Json?
+  status      VerificationStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("verification_requests")
 }
 
 // NextAuth.js 相关模型
@@ -98,8 +148,43 @@ model Session {
   @@map("sessions")
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
 enum Role {
   USER
   ADMIN
-  ORGANIZER
+}
+
+enum Terrain {
+  ROAD
+  TRAIL
+  MIXED
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ScraperLog {
+  id            String    @id @default(cuid())
+  source        String
+  totalRaces    Int?
+  successCount  Int?
+  failedCount   Int?
+  newRaces      Int?
+  updatedRaces  Int?
+  status        String
+  error         String?
+  createdAt     DateTime  @default(now())
+
+  @@map("scraper_logs")
 }

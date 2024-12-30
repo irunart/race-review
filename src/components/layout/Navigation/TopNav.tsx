@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function TopNav() {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -12,7 +13,6 @@ export default function TopNav() {
         {/* 桌面端导航 */}
         <div className="hidden md:flex items-center space-x-4">
           <Link href="/races">赛事</Link>
-          <Link href="/reviews">评论</Link>
           <Link href="/community">社区</Link>
           <UserMenu />
         </div>

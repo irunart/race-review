@@ -98,7 +98,7 @@ race-review-platform/
 ├── integration/
 └── e2e/
 
-### project
+### project 说明
 
 通过next 框架搭建一个赛事评论网站, 该产品功能点差异化发展方向：
 
@@ -107,3 +107,10 @@ race-review-platform/
 社区运营方向： 鼓励精华评价 设置评价者标签（认证跑者、多次参赛者等） 举办线下活动加强社区粘性 与赛事方合作推出独家优惠
 
 这个赛事评价平台的机会点在于： 填补市场空缺 满足跑者真实需求 有利于赛事提升质量 帮助新手做出更好的参赛决策
+
+### TODO
+1. Add more weather metrics?
+2. Implement weather-based race difficulty adjustments?
+4. Add weather alerts for extreme conditions?
+5. Add more weather metrics or analysis features?
+7. Create weather trend visualizations?

@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SearchIcon, XIcon } from "lucide-react";
-import { Input } from "@/components/ui/Input";
-import { useDebounce } from "@/hooks/useDebounce";
+import { Input } from "@/components/ui/input";
+import { useDebounce } from "ahooks";
 import { searchRaces } from "@/services/race";
 
 interface SearchBarProps {
@@ -18,7 +18,7 @@ export function SearchBar({ className, autoFocus, onClose }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, {wait:300});
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

@@ -1,37 +1,40 @@
+"use client";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Home, Flag, MessageSquare, User } from "lucide-react";
 
 const navItems = [
   {
     href: "/",
     label: "首页",
-    icon: HomeIcon,
+    icon: Home,
   },
   {
     href: "/races",
     label: "赛事",
-    icon: FlagIcon,
+    icon: Flag,
   },
   {
     href: "/reviews",
     label: "评论",
-    icon: ChatIcon,
+    icon: MessageSquare,
   },
   {
     href: "/me",
     label: "我的",
-    icon: UserIcon,
+    icon: User,
   },
 ];
 
-export function BottomNav({ className }: { className?: string }) {
+export default function BottomNav({ className }: { className?: string }) {
   const pathname = usePathname();
 
   return (
     <nav
       className={cn(
-        "fixed bottom-0 left-0 right-0 bg-white border-t py-2",
+        "fixed bottom-0 left-0 right-0 bg-white border-t py-2 md:hidden",
         className
       )}
     >
@@ -46,10 +49,10 @@ export function BottomNav({ className }: { className?: string }) {
               href={item.href}
               className={cn(
                 "flex flex-col items-center justify-center space-y-1",
-                isActive ? "text-primary-600" : "text-gray-600"
+                isActive ? "text-primary-600" : "text-gray-600 hover:text-primary-600"
               )}
             >
-              <Icon className="h-6 w-6" />
+              <Icon className="h-5 w-5" />
               <span className="text-xs">{item.label}</span>
             </Link>
           );
