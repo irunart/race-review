@@ -3,3 +3,6 @@
 .next/*
 .vscode
 .env.local
+
+/devin
+/py310

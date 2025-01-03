@@ -25,7 +25,7 @@ export default async function RaceDetailPage({ params }: Props) {
     where: { raceId: params.id },
     include: {
       weatherHistory: {
-        orderBy: { date: 'desc' },
+        orderBy: { date: "desc" },
         take: 1,
       },
       reviews: {
@@ -41,12 +41,6 @@ export default async function RaceDetailPage({ params }: Props) {
           createdAt: "desc",
         },
       },
-      creator: {
-        select: {
-          name: true,
-          image: true,
-        },
-      },
     },
   });
 
@@ -55,9 +49,12 @@ export default async function RaceDetailPage({ params }: Props) {
   }
 
   // Ensure weather data is up to date
-  if (!race.weatherHistory[0] || isWeatherDataStale(race.weatherHistory[0].updatedAt)) {
-    await fetch(`/api/weather/update`, {
-      method: 'POST',
+  if (
+    !race.weatherHistory[0] ||
+    isWeatherDataStale(race.weatherHistory[0].updatedAt)
+  ) {
+    await fetch(`${process.env.NEXTAUTH_URL}/api/weather/update`, {
+      method: "POST",
       body: JSON.stringify({ raceId: race.raceId }),
     });
   }
@@ -102,10 +99,7 @@ export default async function RaceDetailPage({ params }: Props) {
             weatherData={race.weatherHistory[0]}
           />
 
-          <WeatherDisplay
-            weather={race.weatherHistory[0]}
-            showAdvice={true}
-          />
+          <WeatherDisplay weather={race.weatherHistory[0]} showAdvice={true} />
 
           <WeatherHistory data={race.weatherHistory} />
         </div>

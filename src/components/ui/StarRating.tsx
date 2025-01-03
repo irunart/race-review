@@ -1,26 +1,27 @@
-import { useState } from 'react';
-import { Star } from 'lucide-react';
-import { cn } from '@/lib/utils';
+"use client";
+import { useState } from "react";
+import { Star } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface StarRatingProps {
   value: number;
   onChange?: (value: number) => void;
   readOnly?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
 export function StarRating({
   value,
   onChange,
   readOnly = false,
-  size = 'md',
+  size = "md",
 }: StarRatingProps) {
   const [hoverValue, setHoverValue] = useState<number | null>(null);
 
   const sizes = {
-    sm: 'w-4 h-4',
-    md: 'w-5 h-5',
-    lg: 'w-6 h-6',
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6",
   };
 
   const starSize = sizes[size];
@@ -52,9 +53,9 @@ export function StarRating({
             key={index}
             className={cn(
               starSize,
-              'transition-colors cursor-pointer',
-              filled ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300',
-              readOnly && 'cursor-default'
+              "transition-colors cursor-pointer",
+              filled ? "fill-yellow-400 text-yellow-400" : "text-gray-300",
+              readOnly && "cursor-default"
             )}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}

@@ -1,8 +1,13 @@
-import { Review } from '@prisma/client';
-import { StarRating } from '@/components/ui/StarRating';
+import { Review } from "@prisma/client";
+import { StarRating } from "@/components/ui/StarRating";
+
+// Extend the Review type
+interface ExtendedReview extends Review {
+  detailedRatings?: AverageRatings;
+}
 
 interface DetailedRatingsProps {
-  reviews: Review[];
+  reviews: ExtendedReview[];
 }
 
 interface AverageRatings {
@@ -31,7 +36,8 @@ export function DetailedRatings({ reviews }: DetailedRatingsProps) {
 
     const sum = reviews.reduce(
       (acc, review) => {
-        const ratings = review.detailedRatings as any;
+        const ratings = (review.detailedRatings ||
+          {}) as Partial<AverageRatings>;
         return {
           trackDifficulty: acc.trackDifficulty + ratings.trackDifficulty,
           supplies: acc.supplies + ratings.supplies,
@@ -64,13 +70,13 @@ export function DetailedRatings({ reviews }: DetailedRatingsProps) {
 
   const averageRatings = calculateAverageRatings();
   const ratingDimensions = [
-    { key: 'trackDifficulty', label: '赛道难度' },
-    { key: 'supplies', label: '补给情况' },
-    { key: 'organization', label: '组织水平' },
-    { key: 'transportation', label: '交通便利度' },
-    { key: 'valueForMoney', label: '性价比' },
-    { key: 'scenery', label: '风景指数' },
-    { key: 'volunteerService', label: '志愿者服务' },
+    { key: "trackDifficulty", label: "赛道难度" },
+    { key: "supplies", label: "补给情况" },
+    { key: "organization", label: "组织水平" },
+    { key: "transportation", label: "交通便利度" },
+    { key: "valueForMoney", label: "性价比" },
+    { key: "scenery", label: "风景指数" },
+    { key: "volunteerService", label: "志愿者服务" },
   ];
 
   return (

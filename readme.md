@@ -36,3 +36,14 @@ scrape:dev: 开发模式运行爬虫
 setup: 初始化项目
 validate: 运行所有验证
 dev:full: 同时运行开发服务器和数据库管理工具
+
+### Cursor 配置相关
+
+```
+git clone https://github.com/grapeot/devin.cursorrules devin
+
+# 配置 devin\tools\llm_api.py 对应的阿里通义key
+
+# 其他请参考devin 安装说明
+
+```

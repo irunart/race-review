@@ -19,12 +19,6 @@ export async function GET(
           },
         },
       },
-      creator: {
-        select: {
-          name: true,
-          image: true,
-        },
-      },
     },
   });
 
