@@ -39,13 +39,14 @@ export function DetailedRatings({ reviews }: DetailedRatingsProps) {
         const ratings = (review.detailedRatings ||
           {}) as Partial<AverageRatings>;
         return {
-          trackDifficulty: acc.trackDifficulty + ratings.trackDifficulty,
-          supplies: acc.supplies + ratings.supplies,
-          organization: acc.organization + ratings.organization,
-          transportation: acc.transportation + ratings.transportation,
-          valueForMoney: acc.valueForMoney + ratings.valueForMoney,
-          scenery: acc.scenery + ratings.scenery,
-          volunteerService: acc.volunteerService + ratings.volunteerService,
+          trackDifficulty: acc.trackDifficulty + (ratings.trackDifficulty || 0),
+          supplies: acc.supplies + (ratings.supplies || 0),
+          organization: acc.organization + (ratings.organization || 0),
+          transportation: acc.transportation + (ratings.transportation || 0),
+          valueForMoney: acc.valueForMoney + (ratings.valueForMoney || 0),
+          scenery: acc.scenery + (ratings.scenery || 0),
+          volunteerService:
+            acc.volunteerService + (ratings.volunteerService || 0),
         };
       },
       {

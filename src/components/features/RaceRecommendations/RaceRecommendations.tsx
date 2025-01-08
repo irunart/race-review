@@ -1,7 +1,7 @@
 import { Race } from "@prisma/client";
 import { Footprints, Watch, Wind, Sun, Droplets } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import * as Tabs from "@radix-ui/react-tabs";
+import {Tabs, TabsList, TabsTrigger, TabsContent} from "@radix-ui/react-tabs";
 
 interface RaceRecommendationsProps {
   race: Race;
@@ -176,12 +176,12 @@ export function RaceRecommendations({
 
   return (
     <Tabs defaultValue="equipment" className="w-full">
-      <Tabs.List>
-        <Tabs.Trigger value="equipment">装备建议</Tabs.Trigger>
-        <Tabs.Trigger value="training">训练计划</Tabs.Trigger>
-      </Tabs.List>
+      <TabsList>
+        <TabsTrigger value="equipment">装备建议</TabsTrigger>
+        <TabsTrigger value="training">训练计划</TabsTrigger>
+      </TabsList>
 
-      <Tabs.Content value="equipment" className="mt-4">
+      <TabsContent value="equipment" className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {equipment.map((item, index) => (
             <Card key={index} className="p-4">
@@ -222,9 +222,9 @@ export function RaceRecommendations({
             </Card>
           ))}
         </div>
-      </Tabs.Content>
+      </TabsContent>
 
-      <Tabs.Content value="training" className="mt-4">
+      <TabsContent value="training" className="mt-4">
         <div className="space-y-6">
           {trainingPlan.map((phase, index) => (
             <div key={index} className="bg-white rounded-lg shadow p-4">
@@ -270,7 +270,7 @@ export function RaceRecommendations({
             </div>
           ))}
         </div>
-      </Tabs.Content>
+      </TabsContent>
     </Tabs>
   );
 }

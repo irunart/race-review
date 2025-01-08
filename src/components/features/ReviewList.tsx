@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Badge } from "../ui/Badge";
+import { Badge } from "../ui/badge";
 
 interface Review {
   id: string;
@@ -78,7 +78,7 @@ export default function ReviewList({ reviews, raceId }: Props) {
 
             <div className="flex flex-wrap gap-2">
               {review.isVerified && <Badge variant="success">已验证参赛</Badge>}
-              {review.userBadges.map((badge, index) => (
+              {review?.userBadges?.map((badge, index) => (
                 <Badge key={`${review.id}-${index}`}>{badge}</Badge>
               ))}
             </div>

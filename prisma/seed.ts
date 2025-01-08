@@ -33,8 +33,8 @@ async function main() {
       raceScale: "20000人",
       source: "中国马拉松",
       sourceUrl: "https://www.runchina.org.cn/portal/zh-CN/races/2025145119",
-      lastUpdated: new Date(),
-      createdAt: new Date(),
+      // lastUpdated: new Date(),
+      // createdAt: new Date(),
     },
   });
 

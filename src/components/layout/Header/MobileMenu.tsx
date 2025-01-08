@@ -2,7 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -70,7 +70,7 @@ export function MobileMenu({ session }: MobileMenuProps) {
                       onClick={() => setIsOpen(false)}
                     >
                       {session.user.image ? (
-                        <Image
+                        <img
                           src={session.user.image}
                           alt={session.user.name || ""}
                           width={40}

@@ -1,4 +1,4 @@
-import { Badge } from "../ui/Badge";
+import { Badge } from "../ui/badge";
 import Link from "next/link";
 
 interface Props {
@@ -23,7 +23,7 @@ export default function RaceInfoSection({ race }: Props) {
       <div>
         <h3 className="font-semibold mb-2">适合人群</h3>
         <div className="flex flex-wrap gap-2">
-          {race.suitableFor.map((item) => (
+          {race?.suitableFor?.map((item) => (
             <Badge key={item} variant="success">
               {item}
             </Badge>
@@ -34,7 +34,7 @@ export default function RaceInfoSection({ race }: Props) {
       <div>
         <h3 className="font-semibold mb-2">建议装备</h3>
         <ul className="list-disc list-inside space-y-1 text-gray-600">
-          {race.equipmentSuggestions.map((item) => (
+          {race?.equipmentSuggestions?.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>

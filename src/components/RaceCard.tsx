@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Race } from "@prisma/client";
-import { Badge } from "./ui/Badge";
+import { Badge } from "./ui/badge";
 // import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/utils/date";
 
@@ -15,6 +15,9 @@ interface ScrapedRace extends Partial<BaseRace> {
   date: string | Date;
   location?: string;
   distance?: number;
+  raceItems?: string[];
+  raceScale?: string;
+  raceGrade?: string;
   difficulty?: number;
   description?: string;
   _count?: {
@@ -39,14 +42,23 @@ export default function RaceCard({ race }: Props) {
           )}
 
           <div className="flex flex-wrap gap-2 mb-3">
-            {race.distance && (
+            {/* {(race.distance !== undefined && race.distance !==0) && (
               <Badge>{race.distance}km</Badge>
-            )}
+            )} */}
             {race.difficulty !== undefined && (
-              <Badge variant={race.difficulty >= 4 ? "warning" : "default"}>
+              <Badge variant={race.difficulty >= 4 ? "destructive" : "default"}>
                 难度 {race.difficulty}/5
               </Badge>
             )}
+            {race.raceGrade && (
+              <Badge variant="outline">{race.raceGrade}</Badge>
+            )}
+            {race.raceScale && (
+              <Badge variant="secondary">{race.raceScale}</Badge>
+            )}
+            {race.raceItems && race.raceItems.map((item, index) => (
+              <Badge key={index} variant="secondary">{item}</Badge>
+            ))}
           </div>
 
           {race.description && (

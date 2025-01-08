@@ -26,7 +26,8 @@ const severityColors = {
 };
 
 export function WeatherDisplay({ weather, showAdvice = true }: WeatherDisplayProps) {
-  const WeatherIcon = weatherIcons[weather.conditions] || Cloud;
+  if (!weather) return null;
+  const WeatherIcon = weatherIcons[weather?.conditions] || Cloud;
   const severity = WeatherService.getWeatherSeverity(weather);
   const advice = showAdvice ? WeatherService.getWeatherAdvice(weather) : [];
 

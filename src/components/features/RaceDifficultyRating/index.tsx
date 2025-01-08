@@ -1,6 +1,6 @@
 import { RatingItem } from "@/components/features/RatingItem";
 import { ElevationIcon, RoadIcon, TechnicalIcon } from "@/components/icons";
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   initialRatings?: {

@@ -29,5 +29,5 @@ export interface RaceData {
   raceScale: string;
   source: string;
   sourceUrl: string;
-  lastUpdated: Date;
+  lastUpdated?: Date;
 }

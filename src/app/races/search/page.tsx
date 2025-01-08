@@ -16,6 +16,7 @@ export default async function SearchPage({ searchParams }: Props) {
       ? Number(searchParams.difficulty)
       : undefined,
   });
+  console.log(races,'races');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -63,8 +64,9 @@ export default async function SearchPage({ searchParams }: Props) {
               <p className="text-gray-600 mb-2">{race.location}</p>
               <div className="flex gap-4 text-sm text-gray-500">
                 <span>{race.date.toLocaleDateString()}</span>
-                <span>{race.distance}km</span>
-                <span>难度: {race.difficulty}/5</span>
+                <span>{race.raceGrade}</span>
+                <span>{race.raceItems.join(" ")}</span>
+                <span>{race.raceScale}</span>
               </div>
             </Link>
           ))

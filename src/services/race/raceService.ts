@@ -15,19 +15,13 @@ export class RaceService {
   async searchRaces(params: {
     keyword?: string;
     difficulty?: number;
-    suitableFor?: string[];
-    location?: string;
   }) {
     return await prisma.race.findMany({
       where: {
         OR: [
           { name: { contains: params.keyword } },
-          { location: { contains: params.location } },
         ],
         difficulty: params.difficulty,
-        suitableFor: {
-          hasAny: params.suitableFor,
-        },
       },
     });
   }
